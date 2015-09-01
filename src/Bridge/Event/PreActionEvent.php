@@ -28,4 +28,20 @@ class PreActionEvent extends Event
         $this->action = $action;
         $this->arguments = $arguments;
     }
+
+    /**
+     * @return AbstractAction
+     */
+    public function getAction()
+    {
+        return $this->action;
+    }
+
+    /**
+     * @return array
+     */
+    public function getArguments()
+    {
+        return $this->arguments;
+    }
 }
