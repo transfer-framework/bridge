@@ -3,7 +3,6 @@
 namespace Bridge\Action;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Message\Response;
 
 /**
  * Action where execution method is pre-implemented with an HTTP call using the Guzzle library.
