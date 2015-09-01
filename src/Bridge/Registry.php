@@ -36,7 +36,7 @@ class Registry
      * @param  Service $service
      * @return $this
      */
-    public function addService($service)
+    public function addService(Service $service)
     {
         $this->managers[$service->getName()] = $service;
 
