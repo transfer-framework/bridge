@@ -36,4 +36,28 @@ class PostActionEvent extends Event
         $this->arguments = $arguments;
         $this->response = $response;
     }
+
+    /**
+     * @return AbstractAction
+     */
+    public function getAction()
+    {
+        return $this->action;
+    }
+
+    /**
+     * @return array
+     */
+    public function getArguments()
+    {
+        return $this->arguments;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getResponse()
+    {
+        return $this->response;
+    }
 }
