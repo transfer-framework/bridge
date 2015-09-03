@@ -6,7 +6,7 @@ use Bridge\Action\AbstractAction;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Gets triggered before action execution
+ * Gets triggered before action execution.
  */
 class PreActionEvent extends Event
 {

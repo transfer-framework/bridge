@@ -9,7 +9,7 @@ use Bridge\Service;
 class ElementTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Tests constructor
+     * Tests constructor.
      */
     public function testConstructor()
     {
@@ -19,7 +19,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests call method
+     * Tests call method.
      */
     public function testCall()
     {
@@ -55,8 +55,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
             })
             ->addEventListener(BridgeEvents::POST_ACTION, function () use (&$postActionBuffer) {
                 $postActionBuffer = 'post_action';
-            })
-        ;
+            });
 
         $element = new Element('test');
         $element->setService($service);
@@ -80,7 +79,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests call on non-existing action
+     * Tests call on non-existing action.
      */
     public function testCallOnNonExistingAction()
     {

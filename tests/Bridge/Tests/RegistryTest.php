@@ -8,7 +8,7 @@ use Bridge\Service;
 class RegistryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Tests add- and getService methods
+     * Tests add- and getService methods.
      */
     public function testAddGetService()
     {
@@ -22,7 +22,7 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getService with non-existing service name
+     * Tests getService with non-existing service name.
      */
     public function testGetNonExistingService()
     {

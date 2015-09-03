@@ -28,7 +28,7 @@ abstract class AbstractAction
     }
 
     /**
-     * Sets parent element
+     * Sets parent element.
      *
      * @param Element $element Parent element
      */
@@ -38,7 +38,7 @@ abstract class AbstractAction
     }
 
     /**
-     * Returns parent element
+     * Returns parent element.
      *
      * @return Element
      */
@@ -48,7 +48,7 @@ abstract class AbstractAction
     }
 
     /**
-     * Returns action name
+     * Returns action name.
      *
      * @return string
      */
@@ -58,9 +58,10 @@ abstract class AbstractAction
     }
 
     /**
-     * Executes action
+     * Executes action.
      *
-     * @param  array $arguments Arguments passed to execution method
+     * @param array $arguments Arguments passed to execution method
+     *
      * @return mixed Action response
      */
     abstract public function execute($arguments = array());

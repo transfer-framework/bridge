@@ -24,7 +24,7 @@ class CallbackAction extends AbstractAction
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function execute($arguments = array())
     {
