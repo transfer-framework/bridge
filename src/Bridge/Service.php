@@ -46,10 +46,11 @@ class Service
     }
 
     /**
-     * Adds an event listener
+     * Adds an event listener.
      *
-     * @param  string   $name
-     * @param  callable $listener
+     * @param string   $name
+     * @param callable $listener
+     *
      * @return $this
      */
     public function addEventListener($name, $listener)
@@ -60,9 +61,10 @@ class Service
     }
 
     /**
-     * Adds an event subscriber
+     * Adds an event subscriber.
      *
-     * @param  EventSubscriberInterface $subscriber
+     * @param EventSubscriberInterface $subscriber
+     *
      * @return $this
      */
     public function addEventSubscriber(EventSubscriberInterface $subscriber)
@@ -73,7 +75,7 @@ class Service
     }
 
     /**
-     * Adds an element
+     * Adds an element.
      *
      * @param Element $element
      */
@@ -85,11 +87,13 @@ class Service
     }
 
     /**
-     * Returns an element in the service based on name
+     * Returns an element in the service based on name.
      *
-     * @param  string                    $name Element name
-     * @return Element|null              Element object, if found.
+     * @param string $name Element name
+     *
      * @throws KeyNotFoundInSetException
+     *
+     * @return Element|null Element object, if found.
      */
     public function getElement($name)
     {
@@ -101,7 +105,7 @@ class Service
     }
 
     /**
-     * Returns service name
+     * Returns service name.
      *
      * @return string Service name
      */

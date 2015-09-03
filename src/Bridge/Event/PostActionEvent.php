@@ -6,7 +6,7 @@ use Bridge\Action\AbstractAction;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Gets triggered after action execution
+ * Gets triggered after action execution.
  */
 class PostActionEvent extends Event
 {

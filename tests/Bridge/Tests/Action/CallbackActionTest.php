@@ -8,7 +8,7 @@ use Bridge\Element;
 class CallbackActionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Tests constructor
+     * Tests constructor.
      */
     public function testConstructor()
     {
@@ -18,7 +18,7 @@ class CallbackActionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests get- and setElement methods
+     * Tests get- and setElement methods.
      */
     public function testGetSetElement()
     {
@@ -31,7 +31,7 @@ class CallbackActionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests action execution
+     * Tests action execution.
      */
     public function testExecute()
     {

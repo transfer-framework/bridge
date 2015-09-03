@@ -45,7 +45,7 @@ class Element
     }
 
     /**
-     * Returns element name
+     * Returns element name.
      *
      * @return string Element name
      */
@@ -55,9 +55,10 @@ class Element
     }
 
     /**
-     * Adds action
+     * Adds action.
      *
-     * @param  AbstractAction $action Element action
+     * @param AbstractAction $action Element action
+     *
      * @return $this
      */
     public function addAction(AbstractAction $action)
@@ -70,9 +71,11 @@ class Element
     }
 
     /**
-     * @param  string                    $name Action name
-     * @return AbstractAction
+     * @param string $name Action name
+     *
      * @throws KeyNotFoundInSetException If action does not exist
+     *
+     * @return AbstractAction
      */
     public function getAction($name)
     {
@@ -84,9 +87,10 @@ class Element
     }
 
     /**
-     * @param  string $name      Action name
-     * @param  array  $arguments Arguments to be passed to action execution method
-     * @return mixed  Action response
+     * @param string $name      Action name
+     * @param array  $arguments Arguments to be passed to action execution method
+     *
+     * @return mixed Action response
      */
     public function call($name, $arguments = array())
     {

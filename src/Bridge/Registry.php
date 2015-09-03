@@ -15,11 +15,13 @@ class Registry
     public $managers = array();
 
     /**
-     * Returns service object based on service name
+     * Returns service object based on service name.
      *
      * @param $name Service name
-     * @return Service|null
+     *
      * @throws KeyNotFoundInSetException
+     *
+     * @return Service|null
      */
     public function getService($name)
     {
@@ -31,9 +33,10 @@ class Registry
     }
 
     /**
-     * Adds service
+     * Adds service.
      *
-     * @param  Service $service
+     * @param Service $service
+     *
      * @return $this
      */
     public function addService(Service $service)

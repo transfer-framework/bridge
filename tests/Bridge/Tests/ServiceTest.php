@@ -8,7 +8,7 @@ use Bridge\Service;
 class ServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Tests constructor
+     * Tests constructor.
      */
     public function testConstructor()
     {
@@ -18,7 +18,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests add- and getElement methods
+     * Tests add- and getElement methods.
      */
     public function testAddGetElement()
     {
@@ -32,7 +32,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getElement method with non-existing element name
+     * Tests getElement method with non-existing element name.
      */
     public function testGetNonExistingElement()
     {
