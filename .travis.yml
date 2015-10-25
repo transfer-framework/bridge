@@ -20,4 +20,7 @@ install:
     - composer --prefer-source install
 
 script:
-    - vendor/phpunit/phpunit/phpunit
+    - vendor/phpunit/phpunit/phpunit --coverage-clover=coverage.xml
+
+after_success:
+    - bash <(curl -s https://codecov.io/bash)
