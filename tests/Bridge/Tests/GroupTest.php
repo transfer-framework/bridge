@@ -2,20 +2,21 @@
 
 namespace Bridge\Tests;
 
-use Bridge\Element;
+use Bridge\Group;
 use Bridge\Event\BridgeEvents;
 use Bridge\Service;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class ElementTest extends \PHPUnit_Framework_TestCase
+class GroupTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Tests constructor.
      */
     public function testConstructor()
     {
-        $element = new Element('test');
+        $group = new Group('test');
 
-        $this->assertEquals('test', $element->getName());
+        $this->assertEquals('test', $group->getName());
     }
 
     /**
@@ -23,8 +24,11 @@ class ElementTest extends \PHPUnit_Framework_TestCase
      */
     public function testCall()
     {
-        $element = new Element('test');
-        $element->setService(new Service('test'));
+        $service = new Service('test');
+        $service->setEventDispatcher(new EventDispatcher());
+
+        $group = new Group('test');
+        $group->setService($service);
 
         $action = $this->getMockBuilder('Bridge\Action\AbstractAction')
             ->setConstructorArgs(array('testAction'))
@@ -36,15 +40,16 @@ class ElementTest extends \PHPUnit_Framework_TestCase
         $action->method('getName')
             ->willReturn('testAction');
 
-        $element->addAction($action);
+        $group->addAction($action);
 
-        $this->assertEquals('test-action-response', $element->call('testAction'));
-        $this->assertEquals('test-action-response', $element->testAction());
+        $this->assertEquals('test-action-response', $group->call('testAction'));
+        $this->assertEquals('test-action-response', $group->testAction());
     }
 
     public function testCallEvents()
     {
         $service = new Service('test');
+        $service->setEventDispatcher(new EventDispatcher());
 
         $preActionBuffer = null;
         $postActionBuffer = null;
@@ -57,8 +62,8 @@ class ElementTest extends \PHPUnit_Framework_TestCase
                 $postActionBuffer = 'post_action';
             });
 
-        $element = new Element('test');
-        $element->setService($service);
+        $group = new Group('test');
+        $group->setService($service);
 
         $action = $this->getMockBuilder('Bridge\Action\AbstractAction')
             ->setConstructorArgs(array('testAction'))
@@ -70,9 +75,9 @@ class ElementTest extends \PHPUnit_Framework_TestCase
         $action->method('getName')
             ->willReturn('testAction');
 
-        $element->addAction($action);
+        $group->addAction($action);
 
-        $element->call('testAction');
+        $group->call('testAction');
 
         $this->assertEquals('pre_action', $preActionBuffer);
         $this->assertEquals('post_action', $postActionBuffer);
@@ -85,8 +90,8 @@ class ElementTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Bridge\Exception\KeyNotFoundInSetException');
 
-        $element = new Element('test');
-        $element->call('nonExisting');
-        $element->nonExisting();
+        $group = new Group('test');
+        $group->call('nonExisting');
+        $group->nonExisting();
     }
 }

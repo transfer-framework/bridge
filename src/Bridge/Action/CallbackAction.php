@@ -26,7 +26,7 @@ class CallbackAction extends AbstractAction
     /**
      * {@inheritdoc}
      */
-    public function execute($arguments = array())
+    public function execute(array $arguments = array())
     {
         return call_user_func_array($this->callable, $arguments);
     }

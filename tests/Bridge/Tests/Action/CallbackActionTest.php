@@ -3,7 +3,7 @@
 namespace Bridge\Tests\Action;
 
 use Bridge\Action\CallbackAction;
-use Bridge\Element;
+use Bridge\Group;
 
 class CallbackActionTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,16 +18,16 @@ class CallbackActionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests get- and setElement methods.
+     * Tests get- and setGroup methods.
      */
-    public function testGetSetElement()
+    public function testGetSetGroup()
     {
         $action = new CallbackAction('callback', function () { });
 
-        $element = new Element('test');
-        $action->setElement($element);
+        $group = new Group('test');
+        $action->setGroup($group);
 
-        $this->assertSame($element, $action->getElement());
+        $this->assertSame($group, $action->getGroup());
     }
 
     /**

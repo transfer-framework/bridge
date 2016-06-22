@@ -11,30 +11,44 @@ use Symfony\Component\EventDispatcher\Event;
 class PostActionEvent extends Event
 {
     /**
-     * @var AbstractAction
+     * @var AbstractAction Action object
      */
     private $action;
 
     /**
-     * @var array
+     * @var array Argument collection
      */
     private $arguments;
 
     /**
-     * @var mixed
+     * @var mixed Response given by action after execution
      */
     private $response;
 
     /**
-     * @param AbstractAction $action    Action object
-     * @param array          $arguments Argument collection
-     * @param mixed          $response  Response given by action after execution
+     * @var float Execution time
      */
-    public function __construct(AbstractAction $action, array $arguments, $response)
+    private $executionTime;
+
+    /**
+     * @var array Extra data
+     */
+    private $extraData;
+
+    /**
+     * @param AbstractAction $action        Action object
+     * @param array          $arguments     Argument collection
+     * @param mixed          $response      Response given by action after execution
+     * @param float          $executionTime Execution time
+     * @param array          $extraData     Extra data
+     */
+    public function __construct(AbstractAction $action, array $arguments, $response, $executionTime, $extraData)
     {
         $this->action = $action;
         $this->arguments = $arguments;
         $this->response = $response;
+        $this->executionTime = $executionTime;
+        $this->extraData = $extraData;
     }
 
     /**
@@ -59,5 +73,29 @@ class PostActionEvent extends Event
     public function getResponse()
     {
         return $this->response;
+    }
+
+    /**
+     * @param mixed $response
+     */
+    public function setResponse($response)
+    {
+        $this->response = $response;
+    }
+
+    /**
+     * @return float
+     */
+    public function getExecutionTime()
+    {
+        return $this->executionTime;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExtraData()
+    {
+        return $this->extraData;
     }
 }

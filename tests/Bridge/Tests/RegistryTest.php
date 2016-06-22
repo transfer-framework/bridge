@@ -4,6 +4,7 @@ namespace Bridge\Tests;
 
 use Bridge\Registry;
 use Bridge\Service;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class RegistryTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,7 +13,7 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddGetService()
     {
-        $registry = new Registry();
+        $registry = new Registry(new EventDispatcher());
 
         $service = new Service('test');
         $registry->addService($service);
@@ -28,7 +29,7 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Bridge\Exception\KeyNotFoundInSetException');
 
-        $registry = new Registry();
+        $registry = new Registry(new EventDispatcher());
         $registry->getService('non-existing');
     }
 }
