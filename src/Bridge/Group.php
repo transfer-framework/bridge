@@ -9,9 +9,9 @@ use Bridge\Event\PreActionEvent;
 use Bridge\Exception\KeyNotFoundInSetException;
 
 /**
- * Service element.
+ * Service group.
  */
-class Element
+class Group
 {
     /**
      * @var array Action collection
@@ -19,7 +19,7 @@ class Element
     private $actions = array();
 
     /**
-     * @var string Element name
+     * @var string Group name
      */
     private $name;
 
@@ -29,7 +29,7 @@ class Element
     private $service;
 
     /**
-     * @param string $name Element name
+     * @param string $name Group name
      */
     public function __construct($name)
     {
@@ -45,9 +45,17 @@ class Element
     }
 
     /**
-     * Returns element name.
+     * @return Service
+     */
+    public function getService()
+    {
+        return $this->service;
+    }
+
+    /**
+     * Returns group name.
      *
-     * @return string Element name
+     * @return string Group name
      */
     public function getName()
     {
@@ -57,13 +65,13 @@ class Element
     /**
      * Adds action.
      *
-     * @param AbstractAction $action Element action
+     * @param AbstractAction $action Group action
      *
      * @return $this
      */
     public function addAction(AbstractAction $action)
     {
-        $action->setElement($this);
+        $action->setGroup($this);
 
         $this->actions[$action->getName()] = $action;
 
@@ -99,15 +107,19 @@ class Element
 
         $this->dispatchPreActionEvent($arguments, $action);
 
+        $start = microtime(true);
+
         $response = $action->execute($arguments);
 
-        $this->dispatchPostActionEvent($arguments, $action, $response);
+        $event = $this->dispatchPostActionEvent($arguments, $action, $response, microtime(true) - $start, $action->getExtraData());
+
+        $response = $event->getResponse();
 
         return $response;
     }
 
     /**
-     * @see Element::call()
+     * @see Group::call()
      */
     public function __call($name, $arguments)
     {
@@ -115,8 +127,8 @@ class Element
     }
 
     /**
-     * @param array          $arguments
-     * @param AbstractAction $action
+     * @param array          $arguments Argument collection
+     * @param AbstractAction $action    Action object
      */
     private function dispatchPreActionEvent(array $arguments, AbstractAction $action)
     {
@@ -127,15 +139,19 @@ class Element
     }
 
     /**
-     * @param array          $arguments
-     * @param AbstractAction $action
-     * @param mixed          $response
+     * @param array          $arguments     Argument collection
+     * @param AbstractAction $action        Action object
+     * @param mixed          $response      Action response
+     * @param float          $executionTime Total execution time
+     * @param array          $extraData     Extra Data
+     *
+     * @return PostActionEvent
      */
-    private function dispatchPostActionEvent(array $arguments, AbstractAction $action, $response)
+    private function dispatchPostActionEvent(array $arguments, AbstractAction $action, $response, $executionTime, $extraData)
     {
-        $this->service->getEventDispatcher()->dispatch(
+        return $this->service->getEventDispatcher()->dispatch(
             BridgeEvents::POST_ACTION,
-            new PostActionEvent($action, $arguments, $response)
+            new PostActionEvent($action, $arguments, $response, $executionTime, $extraData)
         );
     }
 }
