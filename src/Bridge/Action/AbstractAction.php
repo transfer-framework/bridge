@@ -2,10 +2,10 @@
 
 namespace Bridge\Action;
 
-use Bridge\Element;
+use Bridge\Resource;
 
 /**
- * Element action.
+ * Resource action.
  */
 abstract class AbstractAction
 {
@@ -15,9 +15,9 @@ abstract class AbstractAction
     private $name;
 
     /**
-     * @var Element Parent element
+     * @var Resource Parent resource
      */
-    protected $element;
+    protected $resource;
 
     /**
      * @param string $name Action name
@@ -28,23 +28,23 @@ abstract class AbstractAction
     }
 
     /**
-     * Sets parent element.
+     * Sets parent resource.
      *
-     * @param Element $element Parent element
+     * @param Resource $resource Parent resource
      */
-    public function setElement(Element $element)
+    public function setResource(Resource $resource)
     {
-        $this->element = $element;
+        $this->resource = $resource;
     }
 
     /**
-     * Returns parent element.
+     * Returns parent resource.
      *
-     * @return Element
+     * @return Resource
      */
-    public function getElement()
+    public function getResource()
     {
-        return $this->element;
+        return $this->resource;
     }
 
     /**

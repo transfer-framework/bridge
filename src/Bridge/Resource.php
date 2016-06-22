@@ -9,9 +9,9 @@ use Bridge\Event\PreActionEvent;
 use Bridge\Exception\KeyNotFoundInSetException;
 
 /**
- * Service element.
+ * Service resource.
  */
-class Element
+class Resource
 {
     /**
      * @var array Action collection
@@ -19,7 +19,7 @@ class Element
     private $actions = array();
 
     /**
-     * @var string Element name
+     * @var string Resource name
      */
     private $name;
 
@@ -29,7 +29,7 @@ class Element
     private $service;
 
     /**
-     * @param string $name Element name
+     * @param string $name Resource name
      */
     public function __construct($name)
     {
@@ -45,9 +45,9 @@ class Element
     }
 
     /**
-     * Returns element name.
+     * Returns resource name.
      *
-     * @return string Element name
+     * @return string Resource name
      */
     public function getName()
     {
@@ -57,13 +57,13 @@ class Element
     /**
      * Adds action.
      *
-     * @param AbstractAction $action Element action
+     * @param AbstractAction $action Resource action
      *
      * @return $this
      */
     public function addAction(AbstractAction $action)
     {
-        $action->setElement($this);
+        $action->setResource($this);
 
         $this->actions[$action->getName()] = $action;
 
@@ -107,7 +107,7 @@ class Element
     }
 
     /**
-     * @see Element::call()
+     * @see Resource::call()
      */
     public function __call($name, $arguments)
     {

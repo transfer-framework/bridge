@@ -3,7 +3,7 @@
 namespace Bridge\Tests\Action;
 
 use Bridge\Action\CallbackAction;
-use Bridge\Element;
+use Bridge\Resource;
 
 class CallbackActionTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,16 +18,16 @@ class CallbackActionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests get- and setElement methods.
+     * Tests get- and setResource methods.
      */
-    public function testGetSetElement()
+    public function testGetSetResource()
     {
         $action = new CallbackAction('callback', function () { });
 
-        $element = new Element('test');
-        $action->setElement($element);
+        $resource = new Resource('test');
+        $action->setResource($resource);
 
-        $this->assertSame($element, $action->getElement());
+        $this->assertSame($resource, $action->getResource());
     }
 
     /**

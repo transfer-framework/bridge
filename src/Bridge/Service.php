@@ -13,9 +13,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class Service
 {
     /**
-     * @var array Element collection
+     * @var array Resource collection
      */
-    private $elements = array();
+    private $resources = array();
 
     /**
      * @var string Service name
@@ -75,33 +75,33 @@ class Service
     }
 
     /**
-     * Adds an element.
+     * Adds an resource.
      *
-     * @param Element $element
+     * @param Resource $resource
      */
-    public function addElement(Element $element)
+    public function addResource(Resource $resource)
     {
-        $element->setService($this);
+        $resource->setService($this);
 
-        $this->elements[$element->getName()] = $element;
+        $this->resources[$resource->getName()] = $resource;
     }
 
     /**
-     * Returns an element in the service based on name.
+     * Returns a resource in the service based on name.
      *
-     * @param string $name Element name
+     * @param string $name Resource name
      *
      * @throws KeyNotFoundInSetException
      *
-     * @return Element|null Element object, if found.
+     * @return Resource|null Resource object, if found.
      */
-    public function getElement($name)
+    public function getResource($name)
     {
-        if (array_key_exists($name, $this->elements)) {
-            return $this->elements[$name];
+        if (array_key_exists($name, $this->resources)) {
+            return $this->resources[$name];
         }
 
-        throw new KeyNotFoundInSetException($name, array_keys($this->elements), 'elements');
+        throw new KeyNotFoundInSetException($name, array_keys($this->resources), 'resources');
     }
 
     /**
