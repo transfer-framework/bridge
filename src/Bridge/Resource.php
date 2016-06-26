@@ -45,6 +45,14 @@ class Resource
     }
 
     /**
+     * @return Service
+     */
+    public function getService()
+    {
+        return $this->service;
+    }
+
+    /**
      * Returns resource name.
      *
      * @return string Resource name
@@ -99,9 +107,11 @@ class Resource
 
         $this->dispatchPreActionEvent($arguments, $action);
 
+        $start = microtime(true);
+        
         $response = $action->execute($arguments);
 
-        $this->dispatchPostActionEvent($arguments, $action, $response);
+        $this->dispatchPostActionEvent($arguments, $action, $response, microtime(true) - $start);
 
         return $response;
     }
@@ -130,12 +140,13 @@ class Resource
      * @param array          $arguments
      * @param AbstractAction $action
      * @param mixed          $response
+     * @param float          $executionTime
      */
-    private function dispatchPostActionEvent(array $arguments, AbstractAction $action, $response)
+    private function dispatchPostActionEvent(array $arguments, AbstractAction $action, $response, $executionTime)
     {
         $this->service->getEventDispatcher()->dispatch(
             BridgeEvents::POST_ACTION,
-            new PostActionEvent($action, $arguments, $response)
+            new PostActionEvent($action, $arguments, $response, $executionTime)
         );
     }
 }

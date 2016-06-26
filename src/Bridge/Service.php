@@ -93,7 +93,7 @@ class Service
      *
      * @throws KeyNotFoundInSetException
      *
-     * @return Resource|null Resource object, if found.
+     * @return object Resource object, if found.
      */
     public function getResource($name)
     {

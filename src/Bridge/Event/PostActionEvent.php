@@ -26,15 +26,22 @@ class PostActionEvent extends Event
     private $response;
 
     /**
-     * @param AbstractAction $action    Action object
-     * @param array          $arguments Argument collection
-     * @param mixed          $response  Response given by action after execution
+     * @var float
      */
-    public function __construct(AbstractAction $action, array $arguments, $response)
+    private $executionTime;
+
+    /**
+     * @param AbstractAction $action Action object
+     * @param array          $arguments Argument collection
+     * @param mixed          $response Response given by action after execution
+     * @param float          $executionTime Execution time
+     */
+    public function __construct(AbstractAction $action, array $arguments, $response, $executionTime)
     {
         $this->action = $action;
         $this->arguments = $arguments;
         $this->response = $response;
+        $this->executionTime = $executionTime;
     }
 
     /**
@@ -59,5 +66,13 @@ class PostActionEvent extends Event
     public function getResponse()
     {
         return $this->response;
+    }
+
+    /**
+     * @return float
+     */
+    public function getExecutionTime()
+    {
+        return $this->executionTime;
     }
 }
