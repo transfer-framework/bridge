@@ -2,20 +2,20 @@
 
 namespace Bridge\Tests;
 
-use Bridge\Element;
+use Bridge\Resource;
 use Bridge\Event\BridgeEvents;
 use Bridge\Service;
 
-class ElementTest extends \PHPUnit_Framework_TestCase
+class ResourceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Tests constructor.
      */
     public function testConstructor()
     {
-        $element = new Element('test');
+        $resource = new Resource('test');
 
-        $this->assertEquals('test', $element->getName());
+        $this->assertEquals('test', $resource->getName());
     }
 
     /**
@@ -23,8 +23,8 @@ class ElementTest extends \PHPUnit_Framework_TestCase
      */
     public function testCall()
     {
-        $element = new Element('test');
-        $element->setService(new Service('test'));
+        $resource = new Resource('test');
+        $resource->setService(new Service('test'));
 
         $action = $this->getMockBuilder('Bridge\Action\AbstractAction')
             ->setConstructorArgs(array('testAction'))
@@ -36,10 +36,10 @@ class ElementTest extends \PHPUnit_Framework_TestCase
         $action->method('getName')
             ->willReturn('testAction');
 
-        $element->addAction($action);
+        $resource->addAction($action);
 
-        $this->assertEquals('test-action-response', $element->call('testAction'));
-        $this->assertEquals('test-action-response', $element->testAction());
+        $this->assertEquals('test-action-response', $resource->call('testAction'));
+        $this->assertEquals('test-action-response', $resource->testAction());
     }
 
     public function testCallEvents()
@@ -57,8 +57,8 @@ class ElementTest extends \PHPUnit_Framework_TestCase
                 $postActionBuffer = 'post_action';
             });
 
-        $element = new Element('test');
-        $element->setService($service);
+        $resource = new Resource('test');
+        $resource->setService($service);
 
         $action = $this->getMockBuilder('Bridge\Action\AbstractAction')
             ->setConstructorArgs(array('testAction'))
@@ -70,9 +70,9 @@ class ElementTest extends \PHPUnit_Framework_TestCase
         $action->method('getName')
             ->willReturn('testAction');
 
-        $element->addAction($action);
+        $resource->addAction($action);
 
-        $element->call('testAction');
+        $resource->call('testAction');
 
         $this->assertEquals('pre_action', $preActionBuffer);
         $this->assertEquals('post_action', $postActionBuffer);
@@ -85,8 +85,8 @@ class ElementTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Bridge\Exception\KeyNotFoundInSetException');
 
-        $element = new Element('test');
-        $element->call('nonExisting');
-        $element->nonExisting();
+        $resource = new Resource('test');
+        $resource->call('nonExisting');
+        $resource->nonExisting();
     }
 }

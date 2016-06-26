@@ -2,7 +2,7 @@
 
 namespace Bridge\Tests;
 
-use Bridge\Element;
+use Bridge\Resource;
 use Bridge\Service;
 
 class ServiceTest extends \PHPUnit_Framework_TestCase
@@ -18,27 +18,27 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests add- and getElement methods.
+     * Tests add- and getResource methods.
      */
-    public function testAddGetElement()
+    public function testAddGetResource()
     {
         $service = new Service('test-service');
 
-        $element = new Element('test-element');
-        $service->addElement($element);
+        $resource = new Resource('test-resource');
+        $service->addResource($resource);
 
-        $this->assertNotNull($service->getElement('test-element'));
-        $this->assertSame($element, $service->getElement('test-element'));
+        $this->assertNotNull($service->getResource('test-resource'));
+        $this->assertSame($resource, $service->getResource('test-resource'));
     }
 
     /**
-     * Tests getElement method with non-existing element name.
+     * Tests getResource method with non-existing resource name.
      */
-    public function testGetNonExistingElement()
+    public function testGetNonExistingResource()
     {
         $this->setExpectedException('Bridge\Exception\KeyNotFoundInSetException');
 
         $service = new Service('test-service');
-        $service->getElement('non-existing');
+        $service->getResource('non-existing');
     }
 }
