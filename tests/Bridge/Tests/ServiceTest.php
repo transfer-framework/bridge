@@ -2,7 +2,7 @@
 
 namespace Bridge\Tests;
 
-use Bridge\Element;
+use Bridge\Group;
 use Bridge\Service;
 
 class ServiceTest extends \PHPUnit_Framework_TestCase
@@ -18,27 +18,27 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests add- and getElement methods.
+     * Tests add- and getGroup methods.
      */
-    public function testAddGetElement()
+    public function testAddGetGroup()
     {
         $service = new Service('test-service');
 
-        $element = new Element('test-element');
-        $service->addElement($element);
+        $group = new Group('test-group');
+        $service->addGroup($group);
 
-        $this->assertNotNull($service->getElement('test-element'));
-        $this->assertSame($element, $service->getElement('test-element'));
+        $this->assertNotNull($service->getGroup('test-group'));
+        $this->assertSame($group, $service->getGroup('test-group'));
     }
 
     /**
-     * Tests getElement method with non-existing element name.
+     * Tests getGroup method with non-existing group name.
      */
-    public function testGetNonExistingElement()
+    public function testGetNonExistingGroup()
     {
         $this->setExpectedException('Bridge\Exception\KeyNotFoundInSetException');
 
         $service = new Service('test-service');
-        $service->getElement('non-existing');
+        $service->getGroup('non-existing');
     }
 }

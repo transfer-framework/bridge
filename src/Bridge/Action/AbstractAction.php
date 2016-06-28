@@ -2,10 +2,10 @@
 
 namespace Bridge\Action;
 
-use Bridge\Element;
+use Bridge\Group;
 
 /**
- * Element action.
+ * Abstract action.
  */
 abstract class AbstractAction
 {
@@ -15,9 +15,14 @@ abstract class AbstractAction
     private $name;
 
     /**
-     * @var Element Parent element
+     * @var Group Parent group
      */
-    protected $element;
+    protected $group;
+
+    /**
+     * @var array Extra data
+     */
+    protected $extraData = array();
 
     /**
      * @param string $name Action name
@@ -28,23 +33,23 @@ abstract class AbstractAction
     }
 
     /**
-     * Sets parent element.
+     * Sets parent group.
      *
-     * @param Element $element Parent element
+     * @param Group $group Parent group
      */
-    public function setElement(Element $element)
+    public function setGroup(Group $group)
     {
-        $this->element = $element;
+        $this->group = $group;
     }
 
     /**
-     * Returns parent element.
+     * Returns parent group.
      *
-     * @return Element
+     * @return Group
      */
-    public function getElement()
+    public function getGroup()
     {
-        return $this->element;
+        return $this->group;
     }
 
     /**
@@ -58,11 +63,21 @@ abstract class AbstractAction
     }
 
     /**
+     * Returns extra data.
+     *
+     * @return array Extra data
+     */
+    public function getExtraData()
+    {
+        return $this->extraData;
+    }
+
+    /**
      * Executes action.
      *
      * @param array $arguments Arguments passed to execution method
      *
      * @return mixed Action response
      */
-    abstract public function execute($arguments = array());
+    abstract public function execute(array $arguments = array());
 }
