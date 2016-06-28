@@ -8,10 +8,10 @@ use Bridge\HttpApi\Worker\SerializationWorker;
 use Bridge\HttpApi\Worker\VirtualizationWorker;
 use Bridge\Registry;
 use Bridge\RegistryAwareInterface;
-use Transfer\Adapter\CachedAdapter;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Transfer\Adapter\CacheAdapter;
 use Transfer\Adapter\Transaction\Request;
 use Transfer\Adapter\CallbackAdapter;
-use Transfer\Storage\FileStorage;
 
 class HttpApiAction extends ProceduralAction implements RegistryAwareInterface
 {
@@ -98,8 +98,8 @@ class HttpApiAction extends ProceduralAction implements RegistryAwareInterface
 
         $this->builder->addSource(
             new CallbackAdapter(function (Request $request) use (&$extraData) {
-                $adapter = new CachedAdapter(
-                    new FileStorage('/tmp/bridge'),
+                $adapter = new CacheAdapter(
+                    new FilesystemAdapter(),
                     new HttpApiAdapter()
                 );
 
