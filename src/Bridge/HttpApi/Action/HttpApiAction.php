@@ -97,7 +97,7 @@ class HttpApiAction extends ProceduralAction implements RegistryAwareInterface
         $extraData = &$this->extraData;
 
         $this->builder->addSource(
-            new CallbackAdapter(function (Request $request) use ($arguments, &$extraData) {
+            new CallbackAdapter(function (Request $request) use (&$extraData) {
                 $adapter = new CachedAdapter(
                     new FileStorage('/tmp/bridge'),
                     new HttpApiAdapter()

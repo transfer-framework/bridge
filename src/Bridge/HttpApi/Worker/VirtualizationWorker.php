@@ -56,7 +56,7 @@ class VirtualizationWorker implements WorkerInterface
 
             $wrappedObject = $object;
 
-            if ($this->registry == null) {
+            if ($this->registry === null) {
                 return true;
             }
 

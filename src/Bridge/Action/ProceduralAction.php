@@ -27,7 +27,7 @@ class ProceduralAction extends AbstractAction
 
         $this->builder = $builder;
 
-        if ($this->builder == null) {
+        if ($this->builder === null) {
             $this->builder = new ProcedureBuilder();
         }
     }
