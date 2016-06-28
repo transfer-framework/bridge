@@ -3,7 +3,6 @@
 namespace Bridge;
 
 use Bridge\Exception\KeyNotFoundInSetException;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Service registry.
@@ -14,19 +13,6 @@ class Registry
      * @var array Service collection
      */
     public $services = array();
-
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $dispatcher;
-
-    /**
-     * @param EventDispatcherInterface $dispatcher
-     */
-    public function __construct(EventDispatcherInterface $dispatcher)
-    {
-        $this->dispatcher = $dispatcher;
-    }
 
     /**
      * Returns service object based on service name.

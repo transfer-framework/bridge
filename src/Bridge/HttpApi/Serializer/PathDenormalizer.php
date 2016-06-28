@@ -51,7 +51,7 @@ class PathDenormalizer implements DenormalizerInterface, SerializerAwareInterfac
     {
         return
             $this->accessor->isReadable($data, $this->path) &&
-            $this->accessor->getValue($data, $this->path) != null;
+            $this->accessor->getValue($data, $this->path) !== null;
     }
 
     /**
