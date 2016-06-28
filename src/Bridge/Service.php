@@ -3,7 +3,6 @@
 namespace Bridge;
 
 use Bridge\Exception\KeyNotFoundInSetException;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -13,9 +12,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class Service
 {
     /**
-     * @var array Element collection
+     * @var array Group collection
      */
-    private $elements = array();
+    private $groups = array();
 
     /**
      * @var string Service name
@@ -33,8 +32,14 @@ class Service
     public function __construct($name)
     {
         $this->name = $name;
+    }
 
-        $this->dispatcher = new EventDispatcher();
+    /**
+     * @param EventDispatcherInterface $dispatcher
+     */
+    public function setEventDispatcher($dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -75,33 +80,33 @@ class Service
     }
 
     /**
-     * Adds an element.
+     * Adds a group.
      *
-     * @param Element $element
+     * @param Group $group
      */
-    public function addElement(Element $element)
+    public function addGroup(Group $group)
     {
-        $element->setService($this);
+        $group->setService($this);
 
-        $this->elements[$element->getName()] = $element;
+        $this->groups[$group->getName()] = $group;
     }
 
     /**
-     * Returns an element in the service based on name.
+     * Returns a group in the service based on name.
      *
-     * @param string $name Element name
+     * @param string $name Group name
      *
      * @throws KeyNotFoundInSetException
      *
-     * @return Element|null Element object, if found.
+     * @return object Group object, if found.
      */
-    public function getElement($name)
+    public function getGroup($name)
     {
-        if (array_key_exists($name, $this->elements)) {
-            return $this->elements[$name];
+        if (array_key_exists($name, $this->groups)) {
+            return $this->groups[$name];
         }
 
-        throw new KeyNotFoundInSetException($name, array_keys($this->elements), 'elements');
+        throw new KeyNotFoundInSetException($name, array_keys($this->groups), 'groups');
     }
 
     /**

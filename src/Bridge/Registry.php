@@ -3,6 +3,7 @@
 namespace Bridge;
 
 use Bridge\Exception\KeyNotFoundInSetException;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Service registry.
@@ -10,14 +11,27 @@ use Bridge\Exception\KeyNotFoundInSetException;
 class Registry
 {
     /**
-     * @var array Manager collection
+     * @var array Service collection
      */
-    public $managers = array();
+    public $services = array();
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
+
+    /**
+     * @param EventDispatcherInterface $dispatcher
+     */
+    public function __construct(EventDispatcherInterface $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
+    }
 
     /**
      * Returns service object based on service name.
      *
-     * @param $name Service name
+     * @param string $name Service name
      *
      * @throws KeyNotFoundInSetException
      *
@@ -25,11 +39,11 @@ class Registry
      */
     public function getService($name)
     {
-        if (array_key_exists($name, $this->managers)) {
-            return $this->managers[$name];
+        if (array_key_exists($name, $this->services)) {
+            return $this->services[$name];
         }
 
-        throw new KeyNotFoundInSetException($name, array_keys($this->managers), 'services');
+        throw new KeyNotFoundInSetException($name, array_keys($this->services), 'services');
     }
 
     /**
@@ -41,8 +55,30 @@ class Registry
      */
     public function addService(Service $service)
     {
-        $this->managers[$service->getName()] = $service;
+        $this->services[$service->getName()] = $service;
 
         return $this;
+    }
+
+    /**
+     * Returns either a service, group or action based on component path.
+     *
+     * @param string $component
+     *
+     * @return object
+     */
+    public function get($component)
+    {
+        $parts = explode('.', $component);
+
+        if (count($parts) == 1) {
+            return $this->getService($parts[0]);
+        } elseif (count($parts) == 2) {
+            return $this->getService($parts[0])->getGroup($parts[1]);
+        } elseif (count($parts) == 3) {
+            return $this->getService($parts[0])->getGroup($parts[1])->getAction($parts[2]);
+        }
+
+        throw new \LogicException('Malformed component path. Please use a dot-notated path (e.g. service.group.action)');
     }
 }
