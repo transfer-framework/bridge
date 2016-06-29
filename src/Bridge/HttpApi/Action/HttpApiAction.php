@@ -8,7 +8,6 @@ use Bridge\HttpApi\Worker\SerializationWorker;
 use Bridge\HttpApi\Worker\VirtualizationWorker;
 use Bridge\Registry;
 use Bridge\RegistryAwareInterface;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Transfer\Adapter\CacheAdapter;
 use Transfer\Adapter\Transaction\Request;
 use Transfer\Adapter\CallbackAdapter;
@@ -97,9 +96,24 @@ class HttpApiAction extends ProceduralAction implements RegistryAwareInterface
 
         $this->builder->addSource(
             new CallbackAdapter(function (Request $request) use (&$extraData) {
+
+                $poolName = 'default';
+
+                if (isset($this->source['cache']['pool'])) {
+                    $poolName = $this->source['cache']['pool'];
+                }
+
                 $adapter = new CacheAdapter(
-                    new FilesystemAdapter(),
-                    new HttpApiAdapter()
+                    $this->registry->getCachePool($poolName),
+                    new HttpApiAdapter(),
+                    function (Request $request) {
+                        $data = $request->getData();
+
+                        return $this->registry->generateCacheItemKey(
+                            sprintf('%s.%s.%s', $data['service'], $data['group'], $data['action']),
+                            $data['arguments']
+                        );
+                    }
                 );
 
                 $response = $adapter->receive($request);

@@ -3,16 +3,22 @@
 namespace Bridge;
 
 use Bridge\Exception\KeyNotFoundInSetException;
+use Psr\Cache\CacheItemPoolInterface;
 
 /**
- * Service registry.
+ * Bridge registry.
  */
 class Registry
 {
     /**
-     * @var array Service collection
+     * @var Service[] Service collection
      */
     public $services = array();
+
+    /**
+     * @var CacheItemPoolInterface[] Cache pools
+     */
+    public $cachePools = array();
 
     /**
      * Returns service object based on service name.
@@ -54,6 +60,55 @@ class Registry
     public function getServices()
     {
         return $this->services;
+    }
+
+    /**
+     * Returns a cache pool.
+     *
+     * @param string $name Cache pool name
+     *
+     * @throws KeyNotFoundInSetException
+     *
+     * @return CacheItemPoolInterface
+     */
+    public function getCachePool($name)
+    {
+        if (array_key_exists($name, $this->cachePools)) {
+            return $this->cachePools[$name];
+        }
+
+        throw new KeyNotFoundInSetException($name, array_keys($this->cachePools), 'cache pools');
+    }
+
+    /**
+     * @param CacheItemPoolInterface $cachePool
+     */
+    public function addCachePool($name, CacheItemPoolInterface $cachePool)
+    {
+        $this->cachePools[$name] = $cachePool;
+    }
+
+    /**
+     * Returns cache pools.
+     *
+     * @return CacheItemPoolInterface[]
+     */
+    public function getCachePools()
+    {
+        return $this->cachePools;
+    }
+
+    /**
+     * Generate cache ID.
+     *
+     * @param string $action
+     * @param array  $arguments
+     *
+     * @return string
+     */
+    public function generateCacheItemKey($action, array $arguments)
+    {
+        return sprintf('%s.%s', $action, md5(serialize($arguments)));
     }
 
     /**
