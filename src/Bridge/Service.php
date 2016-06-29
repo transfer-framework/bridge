@@ -9,7 +9,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * Service.
  */
-class Service
+class Service implements RegistryAwareInterface
 {
     /**
      * @var array Group collection
@@ -27,12 +27,34 @@ class Service
     private $dispatcher;
 
     /**
+     * @var Registry
+     */
+    private $registry;
+
+    /**
      * @param string $name Service name
      */
     public function __construct($name)
     {
         $this->name = $name;
     }
+
+    /**
+     * @param Registry $registry
+     */
+    public function setRegistry(Registry $registry)
+    {
+        $this->registry = $registry;
+    }
+
+    /**
+     * @return Registry
+     */
+    public function getRegistry()
+    {
+        return $this->registry;
+    }
+
 
     /**
      * @param EventDispatcherInterface $dispatcher
