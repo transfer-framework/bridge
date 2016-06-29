@@ -13,18 +13,12 @@ use Bridge\Action\AbstractAction;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Command for executing actions.
  */
 class ExecuteCommand extends BridgeCommand
 {
-    /**
-     * @var EventDispatcherInterface Custom event dispatcher
-     */
-    protected $dispatcher;
-
     /**
      * {@inheritdoc}
      */
@@ -37,16 +31,6 @@ class ExecuteCommand extends BridgeCommand
             ->setDescription('Execute an action')
             ->addArgument('name', InputArgument::REQUIRED, 'Name')
             ->addArgument('arguments', InputArgument::IS_ARRAY, 'Arguments');
-    }
-
-    /**
-     * Sets custom event dispatcher.
-     *
-     * @param EventDispatcherInterface $dispatcher Custom event dispatcher
-     */
-    public function setEventDispatcher($dispatcher)
-    {
-        $this->dispatcher = $dispatcher;
     }
 
     /**

@@ -14,9 +14,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Command for executing actions.
+ * Command for list registered cache pools.
  */
-class ListCommand extends BridgeCommand
+class CachePoolsCommand extends BridgeCommand
 {
     /**
      * {@inheritdoc}
@@ -26,8 +26,8 @@ class ListCommand extends BridgeCommand
         parent::configure();
 
         $this
-            ->setName('list')
-            ->setDescription('Lists registered components');
+            ->setName('cache:pools')
+            ->setDescription('List registered cache pools');
     }
 
     /**
@@ -37,26 +37,18 @@ class ListCommand extends BridgeCommand
     {
         parent::execute($input, $output);
 
-        $services = $this->registry->getServices();
+        $pools = $this->registry->getCachePools();
 
-        $actions = array();
+        $rows = array();
 
-        foreach ($services as $service) {
-            foreach ($service->getGroups() as $group) {
-                foreach ($group->getActions() as $action) {
-                    $actions[] = array(
-                        $service->getName(),
-                        $group->getName(),
-                        $action->getName(),
-                    );
-                }
-            }
+        foreach ($pools as $name => $pool) {
+            $rows[] = array($name, get_class($pool));
         }
 
         $table = new Table($output);
 
-        $table->setHeaders(array('Service', 'Group', 'Action'))
-            ->setRows($actions);
+        $table->setHeaders(array('Name', 'Class'))
+            ->setRows($rows);
 
         $table->render();
     }

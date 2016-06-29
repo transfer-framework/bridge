@@ -24,6 +24,9 @@ class BridgeApplication extends Application
         $this->addCommands(array(
             new Commands\ExecuteCommand(),
             new Commands\ListCommand(),
+            new Commands\CachePoolsCommand(),
+            new Commands\CacheClearCommand(),
+            new Commands\CacheRemoveCommand(),
         ));
     }
 }
