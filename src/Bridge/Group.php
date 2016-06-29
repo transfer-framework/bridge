@@ -105,6 +105,10 @@ class Group
         /** @var AbstractAction $action */
         $action = $this->getAction($name);
 
+        if ($action instanceof RegistryAwareInterface) {
+            $action->setRegistry($this->service->getRegistry());
+        }
+
         $this->dispatchPreActionEvent($arguments, $action);
 
         $start = microtime(true);
