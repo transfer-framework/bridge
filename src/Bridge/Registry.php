@@ -47,6 +47,16 @@ class Registry
     }
 
     /**
+     * Returns registered services.
+     *
+     * @return Service[]
+     */
+    public function getServices()
+    {
+        return $this->services;
+    }
+
+    /**
      * Returns either a service, group or action based on component path.
      *
      * @param string $component
