@@ -81,8 +81,7 @@ class HttpApiAction extends ProceduralAction implements RegistryAwareInterface
 
         if (isset($this->deserialization['multiple']) && $this->deserialization['multiple']) {
             return $response->getIterator();
-        }
-        else {
+        } else {
             return $response->getIterator()->current();
         }
     }

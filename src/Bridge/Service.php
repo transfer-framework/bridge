@@ -32,19 +32,19 @@ class Service implements RegistryAwareInterface
     private $registry;
 
     /**
-     * @param string $name Service name
-     */
-    public function __construct($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
      * @param Registry $registry
      */
     public function setRegistry(Registry $registry)
     {
         $this->registry = $registry;
+    }
+
+    /**
+     * @param string $name Service name
+     */
+    public function __construct($name)
+    {
+        $this->name = $name;
     }
 
     /**
@@ -54,7 +54,6 @@ class Service implements RegistryAwareInterface
     {
         return $this->registry;
     }
-
 
     /**
      * @param EventDispatcherInterface $dispatcher
@@ -129,6 +128,16 @@ class Service implements RegistryAwareInterface
         }
 
         throw new KeyNotFoundInSetException($name, array_keys($this->groups), 'groups');
+    }
+
+    /**
+     * Returns groups.
+     *
+     * @return Group[]
+     */
+    public function getGroups()
+    {
+        return $this->groups;
     }
 
     /**

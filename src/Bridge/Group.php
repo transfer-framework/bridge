@@ -95,6 +95,16 @@ class Group
     }
 
     /**
+     * Returns actions.
+     *
+     * @return AbstractAction[]
+     */
+    public function getActions()
+    {
+        return $this->actions;
+    }
+
+    /**
      * @param string $name      Action name
      * @param array  $arguments Arguments to be passed to action execution method
      *
