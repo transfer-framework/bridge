@@ -3,6 +3,7 @@
 namespace Bridge;
 
 use Bridge\Exception\KeyNotFoundInSetException;
+use Bridge\Exception\KeyTakenInSetException;
 use Psr\Cache\CacheItemPoolInterface;
 
 /**
@@ -44,9 +45,15 @@ class Registry
      * @param Service $service
      *
      * @return $this
+     *
+     * @throws KeyTakenInSetException
      */
     public function addService(Service $service)
     {
+        if (array_key_exists($service->getName(), $this->services)) {
+            throw new KeyTakenInSetException($service->getName(), 'services');
+        }
+
         $this->services[$service->getName()] = $service;
 
         return $this;
