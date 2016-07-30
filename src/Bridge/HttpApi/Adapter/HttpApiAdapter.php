@@ -34,7 +34,13 @@ class HttpApiAdapter implements SourceAdapterInterface
             $method = $data['source']['method'];
         }
 
-        $response = $client->request($method, $url);
+        $options = array();
+
+        if (isset($data['source']['options'])) {
+            $options = $data['source']['options'];
+        }
+
+        $response = $client->request($method, $url, $options);
 
         return new Response((string) $response->getBody());
     }
