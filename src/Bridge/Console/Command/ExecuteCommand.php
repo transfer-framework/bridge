@@ -10,6 +10,7 @@
 namespace Bridge\Console\Command;
 
 use Bridge\Action\AbstractAction;
+use Bridge\RegistryAwareInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -46,14 +47,24 @@ class ExecuteCommand extends BridgeCommand
             throw new \Exception(sprintf('Expected action, got %s', get_class($action)));
         }
 
+        if ($action instanceof RegistryAwareInterface) {
+            $action->setRegistry($this->registry);
+        }
+
         $response = $action->execute($input->getArgument('arguments'));
 
-        $output->writeln(sprintf('Type: <info>%s</info>', gettype($response)));
+        $output->writeln('RESPONSE METADATA');
+        $output->writeln(sprintf('<info>Type</info>: %s', gettype($response)));
 
+        $output->writeln('RESPONSE DATA');
         if (!is_callable(array($response, '__toString'))) {
             $response = serialize($response);
         }
-
         $output->writeln((string) $response);
+
+        $output->writeln('EXTRA DATA');
+        foreach ($action->getExtraData() as $key => $value) {
+            $output->writeln(sprintf('<info>%s</info>: %s', $key, $value));
+        }
     }
 }
