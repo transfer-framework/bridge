@@ -23,6 +23,20 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests duplicated service insertion.
+     */
+    public function testDuplicatedServiceInsertion()
+    {
+        $registry = new Registry(new EventDispatcher());
+
+        $this->setExpectedException('Bridge\Exception\KeyTakenInSetException');
+
+        $service = new Service('test');
+        $registry->addService($service);
+        $registry->addService($service);
+    }
+
+    /**
      * Tests getService with non-existing service name.
      */
     public function testGetNonExistingService()
