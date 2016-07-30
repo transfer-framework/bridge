@@ -92,36 +92,8 @@ class HttpApiAction extends ProceduralAction implements RegistryAwareInterface
      */
     private function addSource(array $arguments = array())
     {
-        $extraData = &$this->extraData;
-
         $this->builder->addSource(
-            new CallbackAdapter(function (Request $request) use (&$extraData) {
-
-                $poolName = 'default';
-
-                if (isset($this->source['cache']['pool'])) {
-                    $poolName = $this->source['cache']['pool'];
-                }
-
-                $adapter = new CacheAdapter(
-                    $this->registry->getCachePool($poolName),
-                    new HttpApiAdapter(),
-                    function (Request $request) {
-                        $data = $request->getData();
-
-                        return $this->registry->generateCacheItemKey(
-                            sprintf('%s.%s.%s', $data['service'], $data['group'], $data['action']),
-                            $data['arguments']
-                        );
-                    }
-                );
-
-                $response = $adapter->receive($request);
-
-                $extraData = $response->getHeaders();
-
-                return $response;
-            }),
+            array_key_exists('cache', $this->source) ? $this->createCacheAdapter() : new HttpApiAdapter(),
             new Request(array(
                 'source' => $this->source,
                 'arguments' => $arguments,
@@ -152,5 +124,43 @@ class HttpApiAction extends ProceduralAction implements RegistryAwareInterface
             $this->deserialization,
             $arguments
         ));
+    }
+
+    /**
+     * Returns cache adapter.
+     *
+     * @return CallbackAdapter Cache adapter
+     */
+    private function createCacheAdapter()
+    {
+        $extraData = &$this->extraData;
+
+        return new CallbackAdapter(function (Request $request) use (&$extraData) {
+
+            $poolName = 'default';
+
+            if (isset($this->source['cache']['pool'])) {
+                $poolName = $this->source['cache']['pool'];
+            }
+
+            $adapter = new CacheAdapter(
+                $this->registry->getCachePool($poolName),
+                new HttpApiAdapter(),
+                function (Request $request) {
+                    $data = $request->getData();
+
+                    return $this->registry->generateCacheItemKey(
+                        sprintf('%s.%s.%s', $data['service'], $data['group'], $data['action']),
+                        $data['arguments']
+                    );
+                }
+            );
+
+            $response = $adapter->receive($request);
+
+            $extraData = $response->getHeaders();
+
+            return $response;
+        });
     }
 }
