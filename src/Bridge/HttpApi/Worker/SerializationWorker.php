@@ -36,6 +36,23 @@ class SerializationWorker implements WorkerInterface
      */
     public function handle($object)
     {
+        if (isset($this->deserialization['serializer'])) {
+            $serializer = $this->deserialization['serializer'];
+        } else {
+            $serializer = $this->getDefaultSerializer();
+        }
+
+        $object = $serializer->deserialize(
+            $object,
+            $this->deserialization['type'],
+            $this->source['format']
+        );
+
+        return $object;
+    }
+
+    private function getDefaultSerializer()
+    {
         $normalizers = array();
 
         $normalizers[] = new GetSetMethodNormalizer();
@@ -50,12 +67,6 @@ class SerializationWorker implements WorkerInterface
 
         $serializer = new Serializer($normalizers, $encoders);
 
-        $object = $serializer->deserialize(
-            $object,
-            $this->deserialization['type'],
-            $this->source['format']
-        );
-
-        return $object;
+        return $serializer;
     }
 }
