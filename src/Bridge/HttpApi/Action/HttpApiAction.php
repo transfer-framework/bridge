@@ -45,6 +45,23 @@ class HttpApiAction extends ProceduralAction implements RegistryAwareInterface
         $this->source = isset($options['source']) ? $options['source'] : null;
         $this->deserialization = isset($options['deserialization']) ? $options['deserialization'] : null;
         $this->virtualProperties = isset($options['virtual_properties']) ? $options['virtual_properties'] : null;
+
+        $this->deserialization['multiple'] = (boolean) strpos($this->deserialization['type'], '[]');
+        if ($this->deserialization['multiple']) {
+            $matches = array();
+            preg_match('/(.+)\[\]/', $this->deserialization['type'], $matches);
+
+            if (isset($matches[1])) {
+                $this->deserialization['single_type'] = $matches[1];
+            } else {
+                throw new \Exception(sprintf(
+                    'Could not extract single type from "%s"',
+                    $this->deserialization['type'])
+                );
+            }
+        } else {
+            $this->deserialization['single_type'] = $this->deserialization['type'];
+        }
     }
 
     /**
